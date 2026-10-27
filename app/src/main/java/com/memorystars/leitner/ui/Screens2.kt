@@ -215,9 +215,8 @@ fun ThemesScreen(vm: AppViewModel, nav: NavHostController) {
         Themes.forEach { t ->
             val locked = st.level < t.minLevel
             val sel = s?.themeId == t.id
-            Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = if (sel) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface),
-                onClick = { if (!locked) vm.edit { it[K.themeId] = t.id } }) {
+            Card(onClick = { if (!locked) vm.edit { it[K.themeId] = t.id } }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = if (sel) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface)) {
                 Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Box(Modifier.size(44.dp).clip(CircleShape).background(t.primary), contentAlignment = Alignment.Center) { Text(t.emoji, fontSize = 22.sp) }
                     Column(Modifier.weight(1f)) {

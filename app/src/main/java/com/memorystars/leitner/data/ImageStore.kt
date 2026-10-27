@@ -14,12 +14,16 @@ class ImageStore(private val ctx: Context) {
     fun file(name: String) = File(dir, name)
     fun newFile(): File = File(dir, "img_${UUID.randomUUID()}.jpg")
 
-    fun importUri(uri: Uri): String? = try {
-        val f = newFile()
-        ctx.contentResolver.openInputStream(uri)?.use { i -> f.outputStream().use { o -> i.copyTo(o) } }
-            ?: return null
-        f.name
-    } catch (e: Exception) { null }
+    fun importUri(uri: Uri): String? {
+        return try {
+            val f = newFile()
+            val input = ctx.contentResolver.openInputStream(uri) ?: return null
+            input.use { i -> f.outputStream().use { o -> i.copyTo(o) } }
+            f.name
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     fun copyOf(name: String?): String? {
         if (name == null) return null
